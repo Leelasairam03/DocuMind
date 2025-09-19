@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Document</title>
+    <style>
+        body { font-family: Arial; display: flex; height: 100vh; margin: 0; }
+        .sidebar { width: 250px; background: #202123; color: white; padding: 20px; overflow-y: auto; }
+        .sidebar a { color: #61dafb; text-decoration: none; display: block; margin: 8px 0; }
+        .main { flex: 1; display: flex; justify-content: center; align-items: center; }
+        ul { list-style: none; padding: 0; }
+        li { margin: 5px 0; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h3>Your Docs</h3>
+        {% for doc in docs %}
+            <a href="{{ url_for('chat', filename=doc) }}">{{ doc }}</a>
+        {% endfor %}
+    </div>
+
+    <div class="main">
+        <form method="POST" enctype="multipart/form-data">
+            <h2>Upload a PDF or TXT</h2>
+            <input type="file" name="file" accept=".txt,.pdf" required>
+            <button type="submit">Upload</button>
+        </form>
+    </div>
+</body>
+</html>

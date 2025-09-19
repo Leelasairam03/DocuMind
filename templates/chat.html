@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat - {{ active_doc }}</title>
+    <style>
+        body { font-family: Arial; display: flex; height: 100vh; margin: 0; }
+        .sidebar { width: 250px; background: #202123; color: white; padding: 20px; overflow-y: auto; }
+        .sidebar a { color: #61dafb; text-decoration: none; display: block; margin: 8px 0; }
+        .main { flex: 1; display: flex; flex-direction: column; background: #f7f7f8; }
+        .chat-window { flex: 1; padding: 20px; overflow-y: auto; }
+        .bubble { padding: 12px 18px; border-radius: 10px; margin: 10px; max-width: 70%; }
+        .user { background: #0084ff; color: white; margin-left: auto; }
+        .bot { background: #e5e5ea; color: black; margin-right: auto; }
+        .input-box { display: flex; padding: 15px; border-top: 1px solid #ccc; background: white; }
+        .input-box input { flex: 1; padding: 10px; border-radius: 5px; border: 1px solid #ccc; }
+        .input-box button { margin-left: 10px; padding: 10px 20px; border: none; border-radius: 5px; background: #0084ff; color: white; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h3>📂 Your Docs</h3>
+        {% for doc in docs %}
+            <a href="{{ url_for('chat', filename=doc) }}" {% if doc==active_doc %} style="font-weight:bold;" {% endif %}>{{ doc }}</a>
+        {% endfor %}
+        <hr>
+        <a href="{{ url_for('index') }}">+ Upload New</a>
+    </div>
+
+    <div class="main">
+        <div class="chat-window" id="chat-window">
+            {% for item in history %}
+                <div class="bubble user">Q: {{ item.q }}</div>
+                <div class="bubble bot">A: {{ item.a }}</div>
+            {% endfor %}
+        </div>
+        <form class="input-box" method="POST">
+            <input type="text" name="question" placeholder="Ask a question..." required>
+            <button type="submit">Send</button>
+        </form>
+    </div>
+</body>
+</html>
